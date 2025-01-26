@@ -4,8 +4,8 @@ const requestOptions = {
   method: 'GET',
   url: 'https://youtube-mp36.p.rapidapi.com/dl',
   headers: {
-    'X-RapidAPI-Key': 'ea5533f125msh7381b88297d175fp1bdaf6jsn100496398d91',
-    'X-RapidAPI-Host': 'youtube-mp36.p.rapidapi.com'
+    'X-RapidAPI-Key': import.meta.env.VITE_API,
+    'X-RapidAPI-Host': import.meta.env.VITE_HOST 
   }
 };
 
@@ -14,13 +14,15 @@ const fetch = async (id) => {
     if (!id) {
       throw new Error("Invalid video ID");
     }
+
     const response = await axios.request({
       ...requestOptions,
       params: { id }
     });
-    return response;
+
+    return response.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching data:", error.message);
     return {
       status: 500,
       data: { status: "error", message: error.message }

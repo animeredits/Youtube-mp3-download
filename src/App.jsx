@@ -40,6 +40,12 @@ function App() {
     }
   }, [response]);
 
+  const extractIdFromUrl = (url) => {
+    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|e\/(?:[^\?&=]+)[^&]*)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
   return (
     <div className="App">
       <div id="logo">
@@ -61,9 +67,9 @@ function App() {
 
       <button
         onClick={() => {
-          const text = link.split("v=")[1] ;
-          if (text) {
-            setId(text);
+          const videoId = extractIdFromUrl(link);
+          if (videoId) {
+            setId(videoId);
           } else {
             alert("Invalid YouTube link");
           }
